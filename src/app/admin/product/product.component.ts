@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ApiService } from 'src/app/service/api.service';
 import { ProductDetailComponent } from '../product-detail/product-detail.component';
 
 @Component({
@@ -12,7 +13,8 @@ export class ProductComponent implements OnInit {
   book: any;
   books: any;
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public api: ApiService
   ) {
   }
 
@@ -22,32 +24,9 @@ export class ProductComponent implements OnInit {
   }
 
   getBooks() {
-    this.books = [
-      {
-        title: 'Belajar Angular 9 Untuk Pemula',
-        author: 'Azuar',
-        publisher: 'Ctech _Studio',
-        year: 2021,
-        isbn: '19208789KB',
-        price: 94000
-      },
-      {
-        title: 'Belajar CodeIgniter 4 Untuk Pemula',
-        author: 'Nurdahlia',
-        publisher: 'Ctech _Studio',
-        year: 2020,
-        isbn: '19891648JP',
-        price: 127000
-      },
-      {
-        title: 'Belajar Laravel Untuk Pemula',
-        author: 'Rizky Apriani',
-        publisher: 'Ctech _Studio',
-        year: 2020,
-        isbn: '15891342KP',
-        price: 198000
-      }
-    ]
+    this.api.get('books').subscribe(result => {
+      this.books = result;
+    })
   }
 
   productDetail(data, idx) {
@@ -61,14 +40,16 @@ export class ProductComponent implements OnInit {
         if (idx == -1) this.books.push(res);
         //jika tidak maka perbarui data
         else
-          this.books[idx] = res;
+          this.books[idx] = data;
       }
     })
   }
-  deleteProduct(idx) {
+  deleteProduct(id, idx) {
     var conf = confirm('Apakah Anda Yakin Ingin Menghapus ?');
     if (conf) {
-      this.books.splice(idx, 1);
+      this.api.delete('books/' + id).subscribe(res => {
+        this.books.splice(idx, 1);
+      });
     }
   }
 
