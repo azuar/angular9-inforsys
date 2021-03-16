@@ -4,11 +4,11 @@
             <h3>Register</h3>
         </div>
         <mat-card-content>
-            <mat-form-field class="uk-width-1-1">
+            <mat-form-field class="uk-width-1-1" appearance="outline">
                 <mat-label>Email</mat-label>
                 <input matInput placeholder="Ex. email@domain.com" [(ngModel)]="users.email">
             </mat-form-field>
-            <mat-form-field class="uk-width-1-1">
+            <mat-form-field class="uk-width-1-1" appearance="outline">
                 <mat-label>Password</mat-label>
                 <input matInput [type]="hide ? 'password' : 'text'" placeholder="Your password"
                     [(ngModel)]="users.password" required>
