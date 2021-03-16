@@ -26,7 +26,6 @@ export class ProductDetailComponent implements OnInit {
     } else {
       this.api.put('books/' + this.data.id, this.data).subscribe(result => {
         this.dialogRef.close(result);
-        // console.log(result);
       });
     }
   }

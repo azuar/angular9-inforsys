@@ -12,6 +12,7 @@ export class ProductComponent implements OnInit {
   title: any;
   book: any;
   books: any;
+
   constructor(
     public dialog: MatDialog,
     public api: ApiService
@@ -22,10 +23,14 @@ export class ProductComponent implements OnInit {
     this.title = 'Products';
     this.getBooks();
   }
-
+  loading: boolean;
   getBooks() {
-    this.api.get('books').subscribe(result => {
+    this.loading = true;
+    this.api.get('bookswithauth').subscribe(result => {
       this.books = result;
+      this.loading = false;
+    }, error => {
+      this.loading = false;
     })
   }
 
@@ -44,13 +49,22 @@ export class ProductComponent implements OnInit {
       }
     })
   }
+  loadingDelete: any = {};
   deleteProduct(id, idx) {
     var conf = confirm('Apakah Anda Yakin Ingin Menghapus ?');
     if (conf) {
-      this.api.delete('books/' + id).subscribe(res => {
-        this.books.splice(idx, 1);
-      });
+      this.loadingDelete[idx] = true;
+      this.api.delete('books/' + id).subscribe
+        (res => {
+          this.books.splice(idx, 1);
+          this.loadingDelete[idx] = false;
+        }, error => {
+          this.loadingDelete[idx] = false;
+          alert('Tidak dapat menghapus data');
+        });
     }
   }
 
 }
+
+

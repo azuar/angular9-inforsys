@@ -27,12 +27,13 @@
                     <td>{{book.title}}</td>
                     <td>{{book.author}}</td>
                     <td>{{book.publisher}}</td>
-                    <td>{{book.isbnID}}</td>
+                    <td>{{book.isbn}}</td>
                     <td>{{book.year}}</td>
                     <td>{{book.price}}</td>
                     <td>
-                        <button class="uk-button uk-button-danger uk-button-small"
-                            (click)="deleteProduct(book.id, idx)">hapus</button>
+                        <button class="uk-button uk-button-danger uk-button-small" (click)="deleteProduct(book.id, idx)"
+                            [disabled]="loadingDelete[idx]">
+                            {{ loadingDelete[idx] ? "Deleted.." : "Delete" }}</button>
                         <button class="uk-button uk-button-small" (click)="productDetail(book,idx)">Edit</button>
                     </td>
                 </tr>
